@@ -1,127 +1,80 @@
 # Домашнее задание к занятию   
-**"`Система мониторинга Zabbix. Часть 1`"** - `Воскобойников Арсений Петрович`
+**"`Система мониторинга Zabbix. Часть 2`"** - `Воскобойников Арсений Петрович`
    
-**Задание 1**  
-Установите Zabbix Server с веб-интерфейсом.  
-Процесс выполнения
-Выполняя ДЗ, сверяйтесь с процессом отражённым в записи лекции.
-Установите PostgreSQL. Для установки достаточна та версия, что есть в системном репозитороии Debian 11.
-Пользуясь конфигуратором команд с официального сайта, составьте набор команд для установки последней версии Zabbix с поддержкой PostgreSQL и Apache.
-Выполните все необходимые команды для установки Zabbix Server и Zabbix Web Server.
-Требования к результатам  
-- Прикрепите в файл README.md скриншот авторизации в админке.
-- Приложите в файл README.md текст использованных команд в GitHub.
 
-# **Ответ**
+# **Задание 1**  
 
-Окно авторизации в админке Забикс  <img src = "img/HW1_task1_screen3_залогинился в систему.jpg" width = 100%>
+Создайте свой шаблон, в котором будут элементы данных, мониторящие загрузку CPU и RAM хоста.
 
-**Текст использованные команд**:  
-1. В формате скриншота:
+Процесс выполнения:  
+Выполняя ДЗ сверяйтесь с процессом отражённым в записи лекции.
+В веб-интерфейсе Zabbix Servera в разделе Templates создайте новый шаблон.  
+- Создайте Item который будет собирать информацию об загрузке CPU в процентах  
+- Создайте Item который будет собирать информацию об загрузке RAM в процентах  
+**Требования к результату:**  
+- Прикрепите в файл README.md скриншот страницы шаблона с названием «Задание 1»
 
-<img src = "img/HW1_task1_screen1_ip address системы и команды для устанвоки забикса.jpg" width = 100%>
- 
-<img src = "img/HW1_task1_screen2_команды в всистеме.jpg" width = 100%>  
-
-# **В формате текста:**
-
-**Ставлю PostgreSQL**
-```
-# sudo apt install postgresql
-``` 
-**Ставлю  репозиторий Zabbix**
-```
-# wget https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix-release/zabbix-release_latest_6.0+debian11_all.deb
-# dpkg -i zabbix-release_latest_6.0+debian11_all.deb
-# apt update
-``` 
-**Ставлю  Zabbix сервер, веб-интерфейс и агент**
-
-```
-# apt install zabbix-server-pgsql zabbix-frontend-php php7.4-pgsql zabbix-apache-conf zabbix-sql-scripts zabbix-agent
-```
-**Создаю базу данных**
-```
-# sudo -u postgres createuser --pwprompt zabbix
-# sudo -u postgres createdb -O zabbix zabbix
-``` 
-**Импортирую начальную схему**
-```
-# zcat /usr/share/zabbix-sql-scripts/postgresql/server.sql.gz | sudo -u zabbix psql zabbix
-```
-**Настраиваю пароль для базы данных**
-```
-Редактирую  файл /etc/zabbix/zabbix_server.conf
-DBPassword=password
-``` 
-**Запускаю процессы Zabbix сервера и агента**
-```
-# systemctl restart zabbix-server zabbix-agent apache2
-# systemctl enable zabbix-server zabbix-agent apache2
-```
-
-**Открываю веб интерфейс**
-```
-http://192.168.8.137/zabbix/
-``` 
+**Ответ**  
+Скриншот страницы шаблона с названием «Задание 1». Для создания ITEM  использовались ключи из шаблона "Linux by zabbix agent"
+<img src = "img/task_1_1.png" width = 100%>
 
 # **Задание 2**  
-Установите Zabbix Agent на два хоста.
+Добавьте в Zabbix два хоста и задайте им имена <фамилия и инициалы-1> и <фамилия и инициалы-2>. Например: ivanovii-1 и ivanovii-2.
 
-Процесс выполнения
-Выполняя ДЗ, сверяйтесь с процессом отражённым в записи лекции.
-Установите Zabbix Agent на 2 вирт.машины, одной из них может быть ваш Zabbix Server.
-Добавьте Zabbix Server в список разрешенных серверов ваших Zabbix Agentов.
-Добавьте Zabbix Agentов в раздел Configuration > Hosts вашего Zabbix Servera.
-Проверьте, что в разделе Latest Data начали появляться данные с добавленных агентов.  
-**Требования к результатам:**  
-- Приложите в файл README.md скриншот раздела Configuration > Hosts, где видно, что агенты подключены к серверу.  
-- Приложите в файл README.md скриншот лога zabbix agent, где видно, что он работает с сервером.  
-- Приложите в файл README.md скриншот раздела Monitoring > Latest data для обоих хостов, где видны поступающие от агентов данные.  
-- Приложите в файл README.md текст использованных команд в GitHub.  
+Процесс выполнения:  
+Выполняя ДЗ сверяйтесь с процессом отражённым в записи лекции:
+- Установите Zabbix Agent на 2 виртмашины, одной из них может быть ваш Zabbix Server  
+- Добавьте Zabbix Server в список разрешенных серверов ваших Zabbix Agentов  
+- Добавьте Zabbix Agentов в раздел Configuration > Hosts вашего Zabbix Servera  
+- Прикрепите за каждым хостом шаблон Linux by Zabbix Agent  
+- Проверьте что в разделе Latest Data начали появляться данные с добавленных агентов  
+**Требования к результату**  
+- Результат данного задания сдавайте вместе с заданием 3
 
-# **Ответ**
-# **В формате скриншотов:**
-- cкриншот раздела Configuration > Hosts, где видно, что агенты подключены к серверу:  <img src = "img/HW1_task2_screen1_Configuration _Hosts.jpg" width = 100%>
+# **Задание 3**  
+- Привяжите созданный шаблон к двум хостам. Также привяжите к обоим хостам шаблон Linux by Zabbix Agent.  
+**Процесс выполнения:**  
+- Выполняя ДЗ сверяйтесь с процессом отражённым в записи лекции.
+- Зайдите в настройки каждого хоста и в разделе Templates прикрепите к этому хосту ваш шаблон  
+- Так же к каждому хосту привяжите шаблон Linux by Zabbix Agent  
+- Проверьте что в раздел Latest Data начали поступать необходимые данные из вашего шаблона  
+**Требования к результату**  
+- Прикрепите в файл README.md скриншот страницы хостов, где будут видны привязки шаблонов с названиями «Задание 2-3». Хосты должны иметь зелёный статус подключения.
 
-- cкриншот лога zabbix agent, где видно, что он работает с сервером:  <img src = "img/HW1_task2_screen1_zabbix agent log.jpg" width = 100%>
+# **Ответ на задание 2 и 3**
 
-- cкриншот (часть1) раздела Monitoring > Latest data для обоих хостов, где видны поступающие от агентов данные:  <img src = "img/HW1_task2_screen1_Monitoring_Latest data_1.jpg" width = 100%>
-
-- cкриншот (часть2) раздела Monitoring > Latest data для обоих хостов, где видны поступающие от агентов данные:  <img src = "img/HW1_task2_screen1_Monitoring_Latest data_2.jpg" width = 100%>
-
-- cкриншот (часть3) раздела Monitoring > Latest data для обоих хостов, где видны поступающие от агентов данные:  <img src = "img/HW1_task2_screen1_Monitoring_Latest data_3.jpg" width = 100%>
-
-# **В формате текста:**
-**Добавляю репозиторий Zabbix:**
 ```
-# wget https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix-release/
-zabbix-release_6.0-4%2Bdebian11_all.deb
-dpkg -i zabbix-release_6.0-4+debian11_all.deb
-apt update
+Создадим 2 хоста, добавим на них забикс агента.  Закрепим шаблон Linux by Zabbix Agent
 ```
+<img src = "img/task_2_1.png" width = 100%>
+в latest data отражается информация, что данные по хостам поступают.
+<img src = "img/task_2_2.png" width = 100%>
 
-**Устонавливаю Zabbix agent и компоненты::**
-```
-# sudo apt install zabbix-agent -y
-```
-**Запусскаю Zabbix agent:**
-```
-# sudo systemctl restart zabbix-agent
-# sudo systemctl enable zabbix-agent
-```
-**Добавляю адрес сервера на Zabbix agent:**
-```
-sudo nano /etc/zabbix/zabbix_agentd.conf
-```
+Добавим ранее созданые шаблон со снятием даныне по ЦП и оперативной памяти к нашим хостам:  
+<img src = "img/task_3_1.png" width = 100%>  
+Поскольку мы использовали ключи "system.cpu.util" и "vm.memory.size", которые используются в шаблоне Linux by Zabbix Agent, то использовать эти 2 шаблона (наш и типовой) одновременно нельзя.  
+Для решения есть ряд вариантов. Остановимся на добавлении custom items.
+Пропишем дополнительнительные данные на агентах Zabbix:
 
-# **Задание 3 со звёздочкой***  
-Установите Zabbix Agent на Windows (компьютер) и подключите его к серверу Zabbix.
+```
+sudo nano /etc/zabbix/zabbix_agentd.d/userparams.conf
 
-**Требования к результатам**  
-- Приложите в файл README.md скриншот раздела Latest Data, где видно свободное место на диске C:
+UserParameter=custom.cpu.load,top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8}'
+UserParameter=custom.ram.load,free | awk '/Mem:/ {printf("%.2f", $3/$2 * 100)}'
+```
+Теперь можно добавить одновременно 2 шаблона к одному хосту:  
+<img src = "img/task_3_2.png" width = 100%>  
+Видно, что даныыес обираются по всем шаблонам.
+<img src = "img/task_3_3.png" width = 100%>  
 
-
-# **Ответ**
-
-Cкриншот раздела Latest Data, где видно свободное место на диске C:  <img src = "img/HW1_task3_windows_mashine_disk.jpg" width = 100%>
+# **Задание 4**  
+Создайте свой кастомный дашборд.  
+Процесс выполнения:  
+- Выполняя ДЗ сверяйтесь с процессом отражённым в записи лекции.
+- В разделе Dashboards создайте новый дашборд
+- Разместите на нём несколько графиков на ваше усмотрение.
+- Требования к результату  
+- Прикрепите в файл README.md скриншот дашборда с названием «Задание 4»  
+**Ответ**    
+Создадим дашборд. Выведем на него графики загрузки памяти и процессора от 2 тестовых хостов:
+<img src = "img/task_4_1.png" width = 100%>
